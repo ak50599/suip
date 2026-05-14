@@ -1,0 +1,17 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - includes
+    excludePaths:
+        - vendor
+    scanFiles:
+        - includes/db.php
+        - includes/functions.php
+        - includes/config.php
+    bootstrapFiles:
+        - includes/db.php
+        - includes/functions.php
+    ignoreErrors:
+        # Ignore dynamic property assignments
+        - '#Access to an undefined property#'
