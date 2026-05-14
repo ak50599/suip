@@ -1,0 +1,37 @@
+name: Pages Build and Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch: {}
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug workspace
+        run: |
+          echo "Working directory: $(pwd)"
+          echo "Repository files:"
+          ls -la
+          echo "Contents of docs (if present):"
+          ls -la docs || echo "docs does not exist"
+
+      - name: Build and deploy
+        uses: ghcr.io/actions/jekyll-build-pages/v1.0.13
+        with:
+          source: '.'          # ← هام: استخدم جذر المستودع كمصدر الموقع
+          destination: './_site'
+          future: true
+          verbose: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
